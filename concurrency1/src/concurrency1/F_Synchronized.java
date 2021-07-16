@@ -6,6 +6,8 @@ class Counter implements Runnable {
 	
 	private int value = 0;
 	
+	private Integer i = 10;
+	
 	public void increment() {
 		try {
 			Thread.sleep(20);
@@ -21,12 +23,12 @@ class Counter implements Runnable {
 
 	@Override
 	public void run() {
-
+		synchronized(this) {
 		this.increment();
-		System.out.println(Thread.currentThread().getName()+"increments: "+ this.getValue());
+		System.out.println(Thread.currentThread().getName()+" increments: "+ this.getValue());
 		this.decremnet();
-		System.out.println(Thread.currentThread().getName()+"decrements: " + this.getValue());
-		
+		System.out.println(Thread.currentThread().getName()+" decrements: " + this.getValue());
+		}
 	}
 	
 	
