@@ -1,5 +1,8 @@
 package concurrency1;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -12,8 +15,10 @@ public class J_PrimeNumberWithCallable {
 
 		public static void main(String[] args) throws InterruptedException, ExecutionException {
 
+			
+			List<Future<Integer>> futures= new ArrayList();
 			ExecutorService executorService= Executors.newCachedThreadPool();
-			int number;
+	
 			
 			while(true) {
 				Scanner sc = new Scanner(System.in);
@@ -32,10 +37,20 @@ public class J_PrimeNumberWithCallable {
 				};
 
 			Future<Integer> primeNumberFeauture=executorService.submit(c);
-			System.out.println( n+ " th prime number is: " + primeNumberFeauture.get());
-				
-
+			futures.add(primeNumberFeauture);
 			}
+			Iterator<Future<Integer>> iterator= futures.iterator();
+			
+			while(iterator.hasNext()) {
+				Future<Integer> f =iterator.next();
+				if(f.isDone()) {
+					System.out.println(f.get());
+				//	futures.remove(f);
+				}
+			
+			}
+
+			
 
 		}
 
